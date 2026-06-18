@@ -17,12 +17,15 @@ COPY . .
 
 # Explicitly copy model (in case .dockerignore excluded mlruns)
 # NOTE: destination changed to /app/src/serving/model to match inference.py's path
-COPY src/serving/model /app/src/serving/model
-
-# Copy MLflow run (artifacts + metadata) to the flat /app/model convenience path
-COPY src/serving/model/3b1a41221fc44548aed629fa42b762e0/artifacts/model /app/model
-COPY src/serving/model/3b1a41221fc44548aed629fa42b762e0/artifacts/feature_columns.txt /app/model/feature_columns.txt
-COPY src/serving/model/3b1a41221fc44548aed629fa42b762e0/artifacts/preprocessing.pkl /app/model/preprocessing.pkl
+## Model artifacts are not checked into source control in this repo.
+## If you want to bundle a trained model into the image, add the model
+## files under `src/serving/model/...` and re-enable the COPY commands below.
+## For deployments that load models from MLflow (recommended), these copies
+## are unnecessary and will fail the build when model files are absent.
+# COPY src/serving/model /app/src/serving/model
+# COPY src/serving/model/<run_id>/artifacts/model /app/model
+# COPY src/serving/model/<run_id>/artifacts/feature_columns.txt /app/model/feature_columns.txt
+# COPY src/serving/model/<run_id>/artifacts/preprocessing.pkl /app/model/preprocessing.pkl
 
 # make "serving" and "app" importable without the "src." prefix
 # ensures logs are shown in real-time (no buffering).
