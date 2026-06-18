@@ -16,16 +16,9 @@ RUN pip install --upgrade pip \
 COPY . .
 
 # Explicitly copy model (in case .dockerignore excluded mlruns)
-# NOTE: destination changed to /app/src/serving/model to match inference.py's path
-## Model artifacts are not checked into source control in this repo.
-## If you want to bundle a trained model into the image, add the model
-## files under `src/serving/model/...` and re-enable the COPY commands below.
-## For deployments that load models from MLflow (recommended), these copies
-## are unnecessary and will fail the build when model files are absent.
-# COPY src/serving/model /app/src/serving/model
-# COPY src/serving/model/<run_id>/artifacts/model /app/model
-# COPY src/serving/model/<run_id>/artifacts/feature_columns.txt /app/model/feature_columns.txt
-# COPY src/serving/model/<run_id>/artifacts/preprocessing.pkl /app/model/preprocessing.pkl
+# Model artifacts bundled from MLflow run: m-e6d97f9ea2524862a5383c9942b26eed
+COPY src/serving/model/m-e6d97f9ea2524862a5383c9942b26eed /app/src/serving/model/m-e6d97f9ea2524862a5383c9942b26eed
+COPY src/serving/model/m-e6d97f9ea2524862a5383c9942b26eed/artifacts /app/model
 
 # make "serving" and "app" importable without the "src." prefix
 # ensures logs are shown in real-time (no buffering).
