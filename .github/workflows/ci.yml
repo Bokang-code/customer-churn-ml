@@ -54,4 +54,4 @@ jobs:
           # use the Dockerfile present in the repo (tests/dockerfile)
           file: ./tests/dockerfile
           push: true
-          tags: anasriad8/telco-fastapi:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/telco-fastapi:latest
